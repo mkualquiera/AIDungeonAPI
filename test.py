@@ -11,10 +11,8 @@ async def blocking_task():
 
 async def main():
     aidc = await AIDungeonClient(debug=True)
-    scenario = await aidc.connect_to_scenario('458627')
-    prompt = await scenario.obtain_prompt()
-    adventure_id = await aidc.create_adventure(scenario.id, prompt, {
-        'character.name':'AIDAPI'
-    })
+    adventure = await aidc.connect_to_public_adventure('51e86616-507f-49f7-b07d-9a58b3261781')
+    await adventure.register_actions_callback(callback)
+    await asyncio.create_task(blocking_task())
 
 asyncio.run(main())

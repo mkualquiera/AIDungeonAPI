@@ -160,8 +160,27 @@ class AIDungeonAdventure(AIDungeonScenario):
     async def obtain_has_died(self):
         return await self.obtain_simple_content('died')
 
-    async def obtain_is_third_person(self):
+    async def obtain_third_person(self):
         return await self.obtain_simple_content('thirdPerson')
+
+    async def register_loading_callback(self, callback):
+        await self.register_simple_content_callback('actionLoading',callback)
+    
+    async def register_error_callback(self, callback):
+        await self.register_simple_content_callback('error',callback)
+    
+    async def register_gamestate_callback(self, callback):
+        await self.register_simple_content_callback('gameState',callback)
+
+    async def register_mode_callback(self, callback):
+        await self.register_simple_content_callback('mode',callback)
+
+    async def register_died_callback(self, callback):
+        await self.register_simple_content_callback('died',callback)
+
+    async def register_third_person_callback(self, callback):
+        await self.register_simple_content_callback('thirdPerson',callback)
+
 
     async def obtain_actions(self):
         super().obtain_actions()
@@ -174,7 +193,7 @@ class AIDungeonAdventure(AIDungeonScenario):
         actions = await self.obtain_actions()
         return actions[-1]
 
-    async def obj_type(self):
+    def obj_type(self):
         return "adventure"
 
     async def __init__(self, client, public_id='', half_id='', id=''):
