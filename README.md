@@ -1,5 +1,5 @@
 # AIDungeonAPI
-Api to interface with AI dungeon 
+UNOFFICIAL Api to interface with AI dungeon 
 
 # Example
 
