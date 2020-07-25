@@ -1,9 +1,8 @@
 from gql import gql, Client, WebsocketsTransport
 from aobject import aobject
+from aidscenario import AIDungeonScenario
 
-class AIDungeonAdventure(aobject):
-    public_id = ""
-    id = ""
+class AIDungeonAdventure(AIDungeonScenario):
     client = None
     character_name = ""
 
@@ -22,25 +21,9 @@ class AIDungeonAdventure(aobject):
         )
         return result['addUserToAdventure']
 
-    async def request_content(self,inner):
-        query = """
-        query ($id: String) {
-            content(id: $id) {
-        """
-        query += inner
-        query += '''
-            }
-        }
-        '''
-        result = await self.client.request(
-            query,
-            variables = {
-                'id':self.id
-            }
-        )
-        return result
-
-    async def send_action(self,type):
+    async def send_simple_action(self,type):
+        if self.client.debug:
+            print("Requesting {} in adventure {}".format(type,self.public_id))
         result = await self.client.request(
             '''
             mutation ($input: ContentActionInput) {
@@ -107,19 +90,13 @@ class AIDungeonAdventure(aobject):
         return result
 
     async def undo(self):
-        if self.client.debug:
-            print("Requesting undo in adventure {}".format(self.public_id))
-        await self.send_action('undo')
+        await self.send_simple_action('undo')
 
     async def redo(self):
-        if self.client.debug:
-            print("Requesting redo in adventure {}".format(self.public_id))
-        await self.send_action('redo')
+        await self.send_simple_action('redo')
 
     async def retry(self):
-        if self.client.debug:
-            print("Requesting retry in adventure {}".format(self.public_id))
-        await self.send_action('retry')
+        await self.send_simple_action('retry')
 
     async def alter_action(self,action_id,text):
         if self.client.debug:
@@ -154,8 +131,6 @@ class AIDungeonAdventure(aobject):
             '''
             mutation ($input: ContentActionInput) {
                 updateMemory(input: $input) {
-                    id
-                    memory
                     __typename
                 }
             }
@@ -171,63 +146,39 @@ class AIDungeonAdventure(aobject):
         return result
 
     async def obtain_is_loading(self):
-        if self.client.debug:
-            print("Requesting if adventure is loading...")
-        result = await self.request_content('actionLoading')
-        return result['content']['actionLoading']
-
-    async def obtain_actions(self):
-        if self.client.debug:
-            print("Requesting actions for adventure {}".format(self.public_id))
-        result = await self.request_content('''
-            actions {
-                id
-                text
-            }
-        ''')
-        return result['content']['actions']
+        return await self.obtain_simple_content('actionLoading')
 
     async def obtain_error(self):
-        if self.client.debug:
-            print("Requesting error for adventure {}".format(self.public_id))
-        result = await self.request_content('error')
-        return result['content']['error']
-
-    async def obtain_memory(self):
-        if self.client.debug:
-            print("Requesting memory for adventure {}".format(self.public_id))
-        result = await self.request_content('memory')
-        return result['content']['memory']
+        return await self.obtain_simple_content('error')
 
     async def obtain_gamestate(self):
-        if self.client.debug:
-            print("Requesting gamestate for adventure {}".format(self.public_id))
-        result = await self.request_content('gameState')
-        return result['content']['gameState']
+        return await self.obtain_simple_content('gameState')
 
     async def obtain_mode(self):
-        if self.client.debug:
-            print("Requesting mode for adventure {}".format(self.public_id))
-        result = await self.request_content('mode')
-        return result['content']['mode']
+        return await self.obtain_simple_content('mode')
 
     async def obtain_has_died(self):
-        if self.client.debug:
-            print("Requesting has died for adventure {}".format(self.public_id))
-        result = await self.request_content('died')
-        return result['content']['died']
+        return await self.obtain_simple_content('died')
 
     async def obtain_is_third_person(self):
-        if self.client.debug:
-            print("Requesting is third person for adventure {}".format(self.public_id))
-        result = await self.request_content('thirdPerson')
-        return result['content']['thirdPerson']
+        return await self.obtain_simple_content('thirdPerson')
+
+    async def obtain_actions(self):
+        super().obtain_actions()
+
+    async def obtain_prompt(self):
+        actions = await self.obtain_actions()
+        return actions[0]['text']
 
     async def obtain_last_action(self):
         actions = await self.obtain_actions()
         return actions[-1]
 
-    async def __init__(self, client, public_id):
-        self.client = client
-        self.public_id = public_id
-        self.id = await self.add_user_to_adventure()
+    async def obj_type(self):
+        return "adventure"
+
+    async def __init__(self, client, public_id='', half_id='', id=''):
+        await super().__init__(client,half_id=half_id,id=id)
+        if public_id != '':
+            self.public_id = public_id
+            self.id = await self.add_user_to_adventure()
