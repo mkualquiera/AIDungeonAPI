@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="aidungeonapi-macho", # Replace with your own username
+    name="aidungeonapi", # Replace with your own username
     version="0.0.1",
     author="1Macho",
     author_email="ozjuanpa@gmail.com",
@@ -20,7 +20,6 @@ setuptools.setup(
     ],
     python_requires='>=3.6',
     install_requires=[
-        "gql>=v3.0.0a1",
-        "pyreadline >= 2.1;platform_system=='Windows'"
+        "gql>=v3.0.0a1"
     ]
 )
