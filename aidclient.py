@@ -57,7 +57,7 @@ class AIDungeonClient(aobject):
         return result['login']['accessToken']
 
     async def refresh_search_index(self):
-        result = await self.request(
+        await self.request(
             """
             mutation {
                 refreshSearchIndex

@@ -104,7 +104,7 @@ class AIDungeonAdventure(AIDungeonScenario):
                 action_id,
                 self.public_id)
             )
-        result = await self.client.request(
+        await self.client.request(
             '''
             mutation ($input: ContentActionInput) {
                 doAlterAction(input: $input) {
