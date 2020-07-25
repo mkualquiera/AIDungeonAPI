@@ -1,5 +1,5 @@
 from gql import gql, Client, WebsocketsTransport
-from aobject import aobject
+from .aobject import aobject
 from .aidscenario import AIDungeonScenario
 
 class AIDungeonAdventure(AIDungeonScenario):
@@ -165,10 +165,10 @@ class AIDungeonAdventure(AIDungeonScenario):
 
     async def register_loading_callback(self, callback):
         await self.register_simple_content_callback('actionLoading',callback)
-    
+
     async def register_error_callback(self, callback):
         await self.register_simple_content_callback('error',callback)
-    
+
     async def register_gamestate_callback(self, callback):
         await self.register_simple_content_callback('gameState',callback)
 

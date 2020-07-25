@@ -1,11 +1,10 @@
 # AIDungeonAPI
-UNOFFICIAL Api to interface with AI dungeon 
+UNOFFICIAL Api to interface with AI dungeon
 
 # Example
 
 ```python
-from aidadventure import AIDungeonAdventure
-from aidclient import AIDungeonClient
+from aidungeonapi import AIDungeonClient
 import asyncio
 
 async def callback(result):
@@ -23,5 +22,3 @@ async def main():
 
 asyncio.run(main())
 ```
-
-
