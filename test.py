@@ -10,7 +10,6 @@ async def blocking_task():
         await asyncio.sleep(10)
 
 async def main():
-    pubid = "59a7ddbd-9746-4d40-9908-487e4f042c2f"
     aidc = await AIDungeonClient(debug=True)
     scenario = await aidc.connect_to_scenario('458627')
     prompt = await scenario.obtain_prompt()
