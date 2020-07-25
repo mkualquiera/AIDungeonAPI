@@ -1,6 +1,6 @@
 from gql import gql, Client, WebsocketsTransport
 from aobject import aobject
-from aidscenario import AIDungeonScenario
+from .aidscenario import AIDungeonScenario
 
 class AIDungeonAdventure(AIDungeonScenario):
     client = None

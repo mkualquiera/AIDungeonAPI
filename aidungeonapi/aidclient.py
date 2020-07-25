@@ -1,7 +1,7 @@
 from gql import gql, Client, WebsocketsTransport
 from aidadventure import AIDungeonAdventure
 from aidscenario import AIDungeonScenario
-from aobject import aobject
+from .aobject import aobject
 import asyncio
 
 class AIDungeonClient(aobject):

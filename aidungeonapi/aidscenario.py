@@ -1,5 +1,5 @@
 from gql import gql, Client, WebsocketsTransport
-from aobject import aobject
+from .aobject import aobject
 
 ScenarioIDS = {
     'SINGLEPLAYER_HUB':'458627',
