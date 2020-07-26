@@ -1,6 +1,6 @@
 from gql import gql, Client, WebsocketsTransport
-from aidadventure import AIDungeonAdventure
-from aidscenario import AIDungeonScenario
+from .aidadventure import AIDungeonAdventure
+from .aidscenario import AIDungeonScenario
 from .aobject import aobject
 import asyncio
 
@@ -176,7 +176,7 @@ class AIDungeonClient(aobject):
             """
         )
         return result['user']['lastAdventure']['id']
-    
+
     async def create_adventure(self, scenario_id, prompt, prompt_variables={}):
         if self.debug:
             print("Creating advenure from scenario {}...".format(scenario_id))
@@ -185,9 +185,9 @@ class AIDungeonClient(aobject):
             new_prompt = new_prompt.replace('${' + key + '}', prompt_variables[key])
         result = await self.request(
             """
-            mutation ($id: String, $prompt: String) {  
-                createAdventureFromScenarioId(id: $id, prompt: $prompt) {    
-                        id    
+            mutation ($id: String, $prompt: String) {
+                createAdventureFromScenarioId(id: $id, prompt: $prompt) {
+                        id
                     }
                 }
             """
@@ -203,7 +203,7 @@ class AIDungeonClient(aobject):
         if self.debug:
             print("Connecting to public adventure {}...".format(public_id))
         return await AIDungeonAdventure(self, public_id=public_id)
-    
+
     async def connect_to_private_adventure(self, id):
         if self.debug:
             print("Connecting to private adventure {}...".format(id))

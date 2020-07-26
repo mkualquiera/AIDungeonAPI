@@ -4,8 +4,8 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="aidungeonapi", 
-    version="0.0.2",
+    name="aidungeonapi",
+    version="0.0.6",
     author="1Macho",
     author_email="ozjuanpa@gmail.com",
     description="AI Dungeon api for python",

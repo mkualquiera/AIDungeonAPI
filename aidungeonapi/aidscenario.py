@@ -29,7 +29,7 @@ class AIDungeonScenario(aobject):
                 'id':self.id
             }
         )
-        return result
+        return result['content']
 
     async def subscribe_content(self,inner,callback):
         query = """
@@ -101,7 +101,7 @@ class AIDungeonScenario(aobject):
     async def register_simple_content_callback(self,element,callback):
         if self.client.debug:
             print("Creating {} callback for {} {}".format(element,self.obj_type(),self.id))
-        
+
         async def inner_callback(object):
             await callback(object[element])
 
@@ -109,7 +109,7 @@ class AIDungeonScenario(aobject):
 
     async def obtain_memory(self):
         return await self.obtain_simple_content('memory')
-    
+
     async def register_memory_callback(self, callback):
         await self.register_simple_content_callback('memory',callback)
 

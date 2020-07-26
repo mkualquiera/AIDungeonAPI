@@ -8,7 +8,7 @@ class AIDungeonAdventure(AIDungeonScenario):
 
     async def add_user_to_adventure(self):
         if self.client.debug:
-            print("Adding user to adventure {}".format(self.public_id))
+            print("Adding user to adventure {}".format(self.id))
         result = await self.client.request(
             '''
             mutation ($adventurePlayPublicId: String) {
@@ -23,7 +23,7 @@ class AIDungeonAdventure(AIDungeonScenario):
 
     async def send_simple_action(self,type):
         if self.client.debug:
-            print("Requesting {} in adventure {}".format(type,self.public_id))
+            print("Requesting {} in adventure {}".format(type,self.id))
         result = await self.client.request(
             '''
             mutation ($input: ContentActionInput) {
@@ -102,7 +102,7 @@ class AIDungeonAdventure(AIDungeonScenario):
         if self.client.debug:
             print("Requesting alter action {} in adventure {}...".format(
                 action_id,
-                self.public_id)
+                self.id)
             )
         await self.client.request(
             '''
@@ -125,7 +125,7 @@ class AIDungeonAdventure(AIDungeonScenario):
     async def alter_memory(self, new_memory):
         if self.client.debug:
             print("Requesting alter memory in adventure {}...".format(
-                self.public_id)
+                self.id)
             )
         result = await self.client.request(
             '''
@@ -183,7 +183,7 @@ class AIDungeonAdventure(AIDungeonScenario):
 
 
     async def obtain_actions(self):
-        super().obtain_actions()
+        return await super().obtain_actions()
 
     async def obtain_prompt(self):
         actions = await self.obtain_actions()
